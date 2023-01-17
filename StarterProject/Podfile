@@ -14,7 +14,7 @@ abstract_target 'Starter' do
   end
 
   target 'macOS' do
-    platform :osx, '11.3'
+    platform :osx, '11.6'
 
     # Pods for macOS
   end
