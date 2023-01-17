@@ -45,6 +45,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		04F448DD2976CAF000FFE46B /* macOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "macOS-Bridging-Header.h"; sourceTree = "<group>"; };
+		04F448DE2976CAF000FFE46B /* XPCHelperProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XPCHelperProtocol.h; sourceTree = "<group>"; };
 		0C3D37560DD979815A53DF1B /* Pods_Starter_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Starter_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D38549A4A5D5B53A9AC0EDE /* Pods-Starter-macOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Starter-macOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Starter-macOS/Pods-Starter-macOS.debug.xcconfig"; sourceTree = "<group>"; };
 		2573A1969C83186B79E292E1 /* Pods-Starter-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Starter-iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-Starter-iOS/Pods-Starter-iOS.release.xcconfig"; sourceTree = "<group>"; };
@@ -174,6 +176,8 @@
 				4029736E1DB8244D00EC8C32 /* ScanViewController.swift */,
 				402973701DB8246200EC8C32 /* Main.storyboard */,
 				402973561DB81F5B00EC8C32 /* Info.plist */,
+				04F448DE2976CAF000FFE46B /* XPCHelperProtocol.h */,
+				04F448DD2976CAF000FFE46B /* macOS-Bridging-Header.h */,
 			);
 			path = macOS;
 			sourceTree = "<group>";
@@ -277,7 +281,7 @@
 					4029734C1DB81F5B00EC8C32 = {
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = S2273LZ6GL;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 1320;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -703,6 +707,7 @@
 			baseConfigurationReference = 1D38549A4A5D5B53A9AC0EDE /* Pods-Starter-macOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = S2273LZ6GL;
@@ -712,7 +717,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mbientlab.StarterProject;
 				PRODUCT_NAME = StarterProject;
 				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "macOS/macOS-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -721,6 +729,7 @@
 			baseConfigurationReference = 5831B849867AF94CA117AB75 /* Pods-Starter-macOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = S2273LZ6GL;
@@ -730,7 +739,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mbientlab.StarterProject;
 				PRODUCT_NAME = StarterProject;
 				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "macOS/macOS-Bridging-Header.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};

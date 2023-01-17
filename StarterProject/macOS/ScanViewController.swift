@@ -124,7 +124,21 @@ class ScanViewController: NSViewController, NSTableViewDelegate, NSTableViewData
 
             mbl_mw_datasignal_subscribe(signal, bridge(obj: self)) { (context, obj) in
               let quaternion: MblMwQuaternion = obj!.pointee.valueAs()
-              print(Double(quaternion.x),Double(quaternion.y), Double(quaternion.z), Double(quaternion.w))
+              // print(Double(quaternion.x),Double(quaternion.y), Double(quaternion.z), Double(quaternion.w))
+
+              let connection = NSXPCConnection(machServiceName: "com.gaudiolab.btrs.XPCHelper", options: NSXPCConnection.Options.privileged)
+              connection.remoteObjectInterface = NSXPCInterface(with: XPCHelperProtocol.self)
+              connection.resume()
+
+              let service = connection.remoteObjectProxyWithErrorHandler { Error in
+                print("[MetaWear] Connection failed with : ", Error)
+              } as? XPCHelperProtocol
+
+              service?.sendToService(withQw: Float(quaternion.w),
+                                     qx: Float(quaternion.x),
+                                     qy: Float(quaternion.y),
+                                     qz: Float(quaternion.z),
+                                     withReply: { _ in /*response in print("[MetaWear] Response : ", response)*/ })
             }
 
             mbl_mw_sensor_fusion_clear_enabled_mask(board)
