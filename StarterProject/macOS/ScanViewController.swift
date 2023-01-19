@@ -58,22 +58,24 @@ class ScanViewController: NSViewController, NSTableViewDelegate, NSTableViewData
         }
         
         let connected = cell.viewWithTag(3) as! NSTextField
-        if isStreaming {
-            connected.stringValue = "Data streaming!"
+        if device.isConnectedAndSetup {
+          if isStreaming {
+            connected.stringValue = "Streaming..."
             connected.isHidden = false
-        } else if device.isConnectedAndSetup {
+          } else {
             connected.stringValue = "Connected!"
             connected.isHidden = false
+          }
         } else if scannerModel.items[row].isConnecting {
-            connected.stringValue = "Connecting..."
-            connected.isHidden = false
+          connected.stringValue = "Connecting..."
+          connected.isHidden = false
         } else {
-            connected.isHidden = true
+          connected.isHidden = true
         }
-                
+
         let name = cell.viewWithTag(4) as! NSTextField
         name.stringValue = device.name
-        
+
         let signal = cell.viewWithTag(5) as! NSImageView
         if let movingAverage = device.averageRSSI() {
             if movingAverage < -80.0 {
@@ -104,6 +106,7 @@ class ScanViewController: NSViewController, NSTableViewDelegate, NSTableViewData
             let signal = mbl_mw_sensor_fusion_get_data_signal(board, MBL_MW_SENSOR_FUSION_DATA_QUATERNION)
 
             guard !isStreaming else {
+              // Stop streaming and disconnect
               mbl_mw_sensor_fusion_stop(board)
               mbl_mw_sensor_fusion_clear_enabled_mask(board)
               mbl_mw_datasignal_unsubscribe(signal)
@@ -124,7 +127,9 @@ class ScanViewController: NSViewController, NSTableViewDelegate, NSTableViewData
 
             mbl_mw_datasignal_subscribe(signal, bridge(obj: self)) { (context, obj) in
               let quaternion: MblMwQuaternion = obj!.pointee.valueAs()
-              // print(Double(quaternion.x),Double(quaternion.y), Double(quaternion.z), Double(quaternion.w))
+              // let timestamp: Date = obj!.pointee.timestamp
+              // let time: Double = timestamp.timeIntervalSinceReferenceDate
+              // print(Double(time))
 
               let connection = NSXPCConnection(machServiceName: "com.gaudiolab.btrs.XPCHelper", options: NSXPCConnection.Options.privileged)
               connection.remoteObjectInterface = NSXPCInterface(with: XPCHelperProtocol.self)
@@ -138,7 +143,8 @@ class ScanViewController: NSViewController, NSTableViewDelegate, NSTableViewData
                                      qx: Float(quaternion.x),
                                      qy: Float(quaternion.y),
                                      qz: Float(quaternion.z),
-                                     withReply: { _ in /*response in print("[MetaWear] Response : ", response)*/ })
+                                     withReply: { _ in })
+                                     // withReply: { response in print("[MetaWear] Response : ", response) })
             }
 
             mbl_mw_sensor_fusion_clear_enabled_mask(board)
